@@ -1,6 +1,6 @@
-# Buyer Lead Intake App
+# LeadFlow - Modern Buyer Lead Management
 
-A comprehensive Next.js application for managing buyer leads and property inquiries. Built with TypeScript, Prisma, and modern web technologies.
+A beautiful, modern Next.js application for managing buyer leads and property inquiries. Built with TypeScript, Prisma, and cutting-edge web technologies with a focus on user experience and visual design.
 
 ## Features
 
@@ -58,22 +58,29 @@ A comprehensive Next.js application for managing buyer leads and property inquir
    npx prisma generate
    ```
 
-4. **Start the development server**
+4. **Add sample data (optional but recommended)**
+   ```bash
+   npm run db:seed
+   ```
+
+5. **Start the development server**
    ```bash
    npm run dev
    ```
 
-5. **Open your browser**
+6. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ### Database Setup
 
 The app uses SQLite for development. The database file (`dev.db`) will be created automatically when you run the first migration.
 
-To reset the database:
+To reset the database and add sample data:
 ```bash
-npx prisma migrate reset
+npm run db:reset
 ```
+
+This will reset the database and automatically seed it with sample data.
 
 ## Usage
 
@@ -185,11 +192,33 @@ npx prisma generate   # Generate Prisma client
 - Error boundaries catch unexpected errors
 - Graceful fallbacks for missing data
 
+## Modern UI Features
+
+### Design System
+- **Modern Color Palette**: Carefully crafted color scheme with gradients and proper contrast
+- **Smooth Animations**: Micro-interactions and transitions for better user experience
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+- **Accessibility**: Proper ARIA labels, keyboard navigation, and screen reader support
+
+### Visual Enhancements
+- **Avatar System**: Colorful user avatars with initials
+- **Status Badges**: Beautiful status indicators with appropriate colors
+- **Card-based Layout**: Clean, modern card design throughout the application
+- **Gradient Backgrounds**: Subtle gradients for visual depth
+- **Custom Scrollbars**: Styled scrollbars for better aesthetics
+
+### Interactive Elements
+- **Hover Effects**: Smooth hover transitions on interactive elements
+- **Loading States**: Beautiful loading spinners and skeleton screens
+- **Form Validation**: Real-time validation with helpful error messages
+- **Filter Indicators**: Visual indicators showing active filters
+
 ## Nice-to-Have Features Implemented
 
 1. **Status Quick Actions**: Dropdown for quick status updates
 2. **Tag Input with Typeahead**: Smart tag input with suggestions
 3. **Advanced Search**: Comprehensive search and filter interface
+4. **Sample Data**: Realistic sample data for immediate testing
 
 ## What's Done vs Skipped
 

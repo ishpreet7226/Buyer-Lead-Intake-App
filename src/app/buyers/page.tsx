@@ -28,24 +28,47 @@ export default async function BuyersPage({ searchParams }: BuyersPageProps) {
   const { buyers, total, pages, currentPage } = await getBuyers(filters);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Buyer Leads</h1>
-          <p className="mt-2 text-gray-600">
-            Manage and track your buyer leads
-          </p>
+        {/* Header Section */}
+        <div className="mb-8 animate-in">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-4xl font-bold text-gray-900 mb-2">Buyer Leads</h1>
+              <p className="text-lg text-gray-600">
+                Manage and track your buyer leads with advanced filtering
+              </p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="text-right">
+                <div className="text-2xl font-bold text-blue-600">{total}</div>
+                <div className="text-sm text-gray-500">Total Leads</div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <Suspense fallback={<div>Loading...</div>}>
-          <BuyersList
-            initialBuyers={buyers}
-            initialTotal={total}
-            initialPages={pages}
-            initialCurrentPage={currentPage}
-            initialFilters={filters}
-          />
-        </Suspense>
+        {/* Main Content */}
+        <div className="slide-up">
+          <Suspense fallback={
+            <div className="card">
+              <div className="card-content">
+                <div className="flex items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                  <span className="ml-3 text-gray-600">Loading leads...</span>
+                </div>
+              </div>
+            </div>
+          }>
+            <BuyersList
+              initialBuyers={buyers}
+              initialTotal={total}
+              initialPages={pages}
+              initialCurrentPage={currentPage}
+              initialFilters={filters}
+            />
+          </Suspense>
+        </div>
       </div>
     </div>
   );

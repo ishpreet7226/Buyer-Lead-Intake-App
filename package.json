@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:reset": "prisma migrate reset --force && npm run db:seed"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
@@ -44,6 +46,7 @@
     "jest-environment-jsdom": "^30.1.2",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.1",
+    "tsx": "^4.20.5",
     "typescript": "^5"
   }
 }

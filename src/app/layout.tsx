@@ -1,20 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import { Navigation } from "@/components/navigation";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
-  title: "Buyer Lead Intake",
-  description: "Manage buyer leads and property inquiries",
+  title: "LeadFlow - Buyer Lead Management",
+  description: "Modern buyer lead management system for real estate professionals",
 };
 
 export default function RootLayout({
@@ -23,11 +19,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="en" className="h-full">
+      <body className={`${inter.variable} font-sans h-full antialiased bg-gradient-to-br from-slate-50 to-blue-50`}>
+        <div className="min-h-full">
+          <Navigation />
+          <main className="flex-1">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );

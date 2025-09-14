@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { BuyerFormSchema, CityLabels, PropertyTypeLabels, BHKLabels, PurposeLabels, TimelineLabels, SourceLabels, StatusLabels } from '@/lib/schemas';
 import { User } from '@/lib/auth';
-import { createBuyer, updateBuyer } from '@/lib/buyer-utils';
+// Remove direct import of server functions
 
 interface BuyerFormProps {
   user: User;
@@ -81,9 +81,31 @@ export function BuyerForm({ user, buyer, isEditing = false }: BuyerFormProps) {
 
     try {
       if (isEditing && buyer) {
-        await updateBuyer(buyer.id, data, user.id, buyer);
+        const response = await fetch(`/api/buyers/${buyer.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to update buyer');
+        }
       } else {
-        await createBuyer(data, user.id);
+        const response = await fetch('/api/buyers', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to create buyer');
+        }
       }
       router.push('/buyers');
     } catch (err) {

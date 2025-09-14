@@ -5,6 +5,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator seed {
+  provider = "tsx"
+  output   = "./seed.ts"
+}
+
 datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"

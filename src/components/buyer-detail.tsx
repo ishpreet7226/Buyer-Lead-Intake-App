@@ -97,7 +97,11 @@ export function BuyerDetail({ buyer, user }: BuyerDetailProps) {
           <div>
             <h1 className="text-3xl font-bold text-gray-900">{buyer.fullName}</h1>
             <p className="text-gray-600">
-              Created by {buyer.owner.name || buyer.owner.email} • {new Date(buyer.createdAt).toLocaleDateString()}
+              Created by {buyer.owner.name || buyer.owner.email} • {new Date(buyer.createdAt).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+              })}
             </p>
           </div>
         </div>
