@@ -280,6 +280,13 @@ async function main() {
     const buyer = await prisma.buyer.create({
       data: {
         ...buyerData,
+        city: buyerData.city as any,
+        propertyType: buyerData.propertyType as any,
+        bhk: buyerData.bhk as any,
+        purpose: buyerData.purpose as any,
+        timeline: buyerData.timeline as any,
+        source: buyerData.source as any,
+        status: buyerData.status as any,
         ownerId: randomUser.id,
       },
     });

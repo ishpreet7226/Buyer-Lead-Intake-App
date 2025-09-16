@@ -1,20 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth';
-import { updateBuyer, deleteBuyer, getBuyerById } from '@/lib/buyer-utils';
+import { updateBuyer, deleteBuyer, getBuyer } from '@/lib/buyer-utils';
 import { BuyerFormSchema } from '@/lib/schemas';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth();
-    const buyer = await getBuyerById(params.id, user.id);
+    const resolvedParams = await params;
+    const buyer = await getBuyer(resolvedParams.id);
     
     if (!buyer) {
       return NextResponse.json(
         { error: 'Buyer not found' },
         { status: 404 }
+      );
+    }
+
+    // Check ownership
+    if (buyer.ownerId !== user.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 403 }
       );
     }
     
@@ -30,7 +39,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth();
@@ -39,15 +48,24 @@ export async function PUT(
     const validatedData = BuyerFormSchema.partial().parse(body);
     
     // Get current buyer data for history tracking
-    const currentBuyer = await getBuyerById(params.id, user.id);
+    const resolvedParams = await params;
+    const currentBuyer = await getBuyer(resolvedParams.id);
     if (!currentBuyer) {
       return NextResponse.json(
         { error: 'Buyer not found' },
         { status: 404 }
       );
     }
+
+    // Check ownership
+    if (currentBuyer.ownerId !== user.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 403 }
+      );
+    }
     
-    const buyer = await updateBuyer(params.id, validatedData, user.id, currentBuyer);
+    const buyer = await updateBuyer(resolvedParams.id, validatedData, user.id, currentBuyer);
     
     return NextResponse.json(buyer);
   } catch (error) {
@@ -69,21 +87,30 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth();
     
     // Check if buyer exists and belongs to user
-    const buyer = await getBuyerById(params.id, user.id);
+    const resolvedParams = await params;
+    const buyer = await getBuyer(resolvedParams.id);
     if (!buyer) {
       return NextResponse.json(
         { error: 'Buyer not found' },
         { status: 404 }
       );
     }
+
+    // Check ownership
+    if (buyer.ownerId !== user.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 403 }
+      );
+    }
     
-    await deleteBuyer(params.id);
+    await deleteBuyer(resolvedParams.id, user.id);
     
     return NextResponse.json({ success: true });
   } catch (error) {
